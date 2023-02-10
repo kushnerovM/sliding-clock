@@ -43,9 +43,7 @@ const currentTimeArray : number[] = new Date().toLocaleTimeString().split(":").j
 clockArray.forEach((elem,i)=>{
     elem.style.transform = `translateY(-${currentTimeArray[i]*unitSize}px)`;
 });
-console.log(new Date().toLocaleTimeString());
  setInterval(()=>{
-    console.log(currentShift(clockArray[clockArray.length-1])/unitSize);
     if(currentShift(clockArray[clockArray.length-1])/unitSize!=new Date().getSeconds()%10){
         let currentColumn :number = clockArray.length-1;
         while(true){
@@ -58,4 +56,4 @@ console.log(new Date().toLocaleTimeString());
             }
         }
     }
- },1000);
+ },10);
