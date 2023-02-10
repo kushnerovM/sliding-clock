@@ -8,13 +8,19 @@ const unitSize : number = 28;
 //calculating shift value via translateY css property
 function currentShift (column: HTMLElement) : number {
     const transformValue : String = column.style.transform;
-    return Number(transformValue.match(/[0-9]/g)?.join(""))
+    return Number(transformValue.match(/[0-9]/g)?.join(""))/unitSize
 }
 function slide(column: HTMLElement) : void {
-    column.style.transform = `translateY(-${currentShift(column)+unitSize}px)`;
+    column.style.transform = `translateY(-${currentShift(column)*unitSize+unitSize}px)`;
     console.log(column.style.transform);
 }
-
+//digit opacity calculation depending on column shift
+function opacityConfigure (column : HTMLElement) : void {
+    const current : number = currentShift(column);
+    const digitArray : HTMLElement[] = Array.from(column.querySelectorAll(".digit"));
+    digitArray.forEach((elem,i)=>elem.style.opacity=String((1-Math.abs(current-i)/10)-0.1));
+    digitArray[current].style.opacity = '1';
+}
 //executable code
 clockContainer.style.fontSize =`${unitSize}px`;
 //clock columns generation
@@ -44,14 +50,16 @@ clockArray.forEach((elem,i)=>{
     elem.style.transform = `translateY(-${currentTimeArray[i]*unitSize}px)`;
 });
  setInterval(()=>{
-    if(currentShift(clockArray[clockArray.length-1])/unitSize!=new Date().getSeconds()%10){
+    if(currentShift(clockArray[clockArray.length-1])!=new Date().getSeconds()%10){
         let currentColumn :number = clockArray.length-1;
         while(true){
-            if(currentShift(clockArray[currentColumn])/unitSize<clockArray[currentColumn].querySelectorAll(".digit").length-1){
+            if(currentShift(clockArray[currentColumn])<clockArray[currentColumn].querySelectorAll(".digit").length-1){
                 slide(clockArray[currentColumn]);
+                opacityConfigure(clockArray[currentColumn]);
                 break;
             } else{
                 clockArray[currentColumn].style.transform = `translateY(0px)`;
+                opacityConfigure(clockArray[currentColumn]);
                 currentColumn--;
             }
         }

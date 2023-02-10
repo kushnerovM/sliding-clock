@@ -9,11 +9,18 @@ const unitSize = 28;
 function currentShift(column) {
     var _a;
     const transformValue = column.style.transform;
-    return Number((_a = transformValue.match(/[0-9]/g)) === null || _a === void 0 ? void 0 : _a.join(""));
+    return Number((_a = transformValue.match(/[0-9]/g)) === null || _a === void 0 ? void 0 : _a.join("")) / unitSize;
 }
 function slide(column) {
-    column.style.transform = `translateY(-${currentShift(column) + unitSize}px)`;
+    column.style.transform = `translateY(-${currentShift(column) * unitSize + unitSize}px)`;
     console.log(column.style.transform);
+}
+//digit opacity calculation depending on column shift
+function opacityConfigure(column) {
+    const current = currentShift(column);
+    const digitArray = Array.from(column.querySelectorAll(".digit"));
+    digitArray.forEach((elem, i) => elem.style.opacity = String((1 - Math.abs(current - i) / 10) - 0.1));
+    digitArray[current].style.opacity = '1';
 }
 //executable code
 clockContainer.style.fontSize = `${unitSize}px`;
@@ -44,15 +51,17 @@ clockArray.forEach((elem, i) => {
     elem.style.transform = `translateY(-${currentTimeArray[i] * unitSize}px)`;
 });
 setInterval(() => {
-    if (currentShift(clockArray[clockArray.length - 1]) / unitSize != new Date().getSeconds() % 10) {
+    if (currentShift(clockArray[clockArray.length - 1]) != new Date().getSeconds() % 10) {
         let currentColumn = clockArray.length - 1;
         while (true) {
-            if (currentShift(clockArray[currentColumn]) / unitSize < clockArray[currentColumn].querySelectorAll(".digit").length - 1) {
+            if (currentShift(clockArray[currentColumn]) < clockArray[currentColumn].querySelectorAll(".digit").length - 1) {
                 slide(clockArray[currentColumn]);
+                opacityConfigure(clockArray[currentColumn]);
                 break;
             }
             else {
                 clockArray[currentColumn].style.transform = `translateY(0px)`;
+                opacityConfigure(clockArray[currentColumn]);
                 currentColumn--;
             }
         }
