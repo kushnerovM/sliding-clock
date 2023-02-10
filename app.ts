@@ -1,7 +1,7 @@
 //selectors
 const clockContainer: HTMLElement = document.querySelector(".clock-container")!;
 const sizes : number[] = [2,9,5,9,5,9];
-const unitSize : number = 28;
+const unitSize : number = 36;
 //event listeners
 
 //funtions
@@ -18,8 +18,12 @@ function slide(column: HTMLElement) : void {
 function opacityConfigure (column : HTMLElement) : void {
     const current : number = currentShift(column);
     const digitArray : HTMLElement[] = Array.from(column.querySelectorAll(".digit"));
-    digitArray.forEach((elem,i)=>elem.style.opacity=String((1-Math.abs(current-i)/10)-0.1));
+    digitArray.forEach((elem,i)=>{
+        elem.style.opacity=String((1-Math.abs(current-i)/10)-0.1);
+        elem.style.color = '#EFF2F1';
+});
     digitArray[current].style.opacity = '1';
+    digitArray[current].style.color = '#131B23';
 }
 //executable code
 clockContainer.style.fontSize =`${unitSize}px`;

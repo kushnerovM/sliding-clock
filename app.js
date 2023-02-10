@@ -2,7 +2,7 @@
 //selectors
 const clockContainer = document.querySelector(".clock-container");
 const sizes = [2, 9, 5, 9, 5, 9];
-const unitSize = 28;
+const unitSize = 36;
 //event listeners
 //funtions
 //calculating shift value via translateY css property
@@ -19,8 +19,12 @@ function slide(column) {
 function opacityConfigure(column) {
     const current = currentShift(column);
     const digitArray = Array.from(column.querySelectorAll(".digit"));
-    digitArray.forEach((elem, i) => elem.style.opacity = String((1 - Math.abs(current - i) / 10) - 0.1));
+    digitArray.forEach((elem, i) => {
+        elem.style.opacity = String((1 - Math.abs(current - i) / 10) - 0.1);
+        elem.style.color = '#EFF2F1';
+    });
     digitArray[current].style.opacity = '1';
+    digitArray[current].style.color = '#131B23';
 }
 //executable code
 clockContainer.style.fontSize = `${unitSize}px`;
