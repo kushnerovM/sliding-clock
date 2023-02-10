@@ -49,6 +49,7 @@ const clockArray = Array.from(document.querySelectorAll(".digit-column"));
 const currentTimeArray = new Date().toLocaleTimeString().split(":").join("").split("").map(n => Number(n));
 clockArray.forEach((elem, i) => {
     elem.style.transform = `translateY(-${currentTimeArray[i] * unitSize}px)`;
+    opacityConfigure(elem);
 });
 setInterval(() => {
     if (currentShift(clockArray[clockArray.length - 1]) != new Date().getSeconds() % 10) {
