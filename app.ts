@@ -26,6 +26,7 @@ function opacityConfigure (column : HTMLElement) : void {
 });
     digitArray[current].style.opacity = '1';
     digitArray[current].style.color = '#131B23';
+    
 }
 
 //executable code

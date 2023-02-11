@@ -28,4 +28,5 @@ body{
 
 .digit {
     text-align: center;
+    transition: color .1s .1s linear;
 }

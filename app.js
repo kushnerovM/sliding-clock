@@ -3,7 +3,6 @@
 const clockContainer = document.querySelector(".clock-container");
 const sizes = [2, 9, 5, 9, 5, 9];
 const unitSize = 36;
-//event listeners
 //funtions
 //calculating shift value via translateY css property
 function currentShift(column) {
@@ -13,7 +12,6 @@ function currentShift(column) {
 }
 function slide(column) {
     column.style.transform = `translateY(-${currentShift(column) * unitSize + unitSize}px)`;
-    console.log(column.style.transform);
 }
 //digit opacity calculation depending on column shift
 function opacityConfigure(column) {
@@ -51,6 +49,7 @@ for (let i = 0; i < sizes.length; i++) {
 }
 const clockArray = Array.from(document.querySelectorAll(".digit-column"));
 const currentTimeArray = new Date().toLocaleTimeString().split(":").join("").split("").map(n => Number(n));
+//configuring clock to current time
 clockArray.forEach((elem, i) => {
     elem.style.transform = `translateY(-${currentTimeArray[i] * unitSize}px)`;
     opacityConfigure(elem);
